@@ -163,6 +163,44 @@ if selected == "Insight of DS/DA/BA By Sectors":
 
     tab1, tab2 = st.tabs(["Comparison", "Sector with highest numer of Jobs in DS/DA/BA"])
     with tab1:
+        color = plt.cm.plasma(np.linspace(0, 1, 9))
+        ax1 = df['Sector'].value_counts().sort_values(ascending=False).head(9).plot.bar(color=color)
+        plt.title("Sector with highest number of Jobs in DS/DA/BA")
+        plt.xlabel("Sector")
+        plt.ylabel("Count")
+        st.pyplot(ax1.get_figure(), clear_figure=True)
+
+        data_sector = df[df['Sector'].isin(
+            ['Information Technology', 'Business Services', 'Finance', 'Health Care', 'Biotech & Pharmaceuticals'
+                , 'Insurance', 'Manufacturing', 'Education', 'Government'])].groupby('Sector')[
+            ['min salary', 'max salary', 'mean salary']].mean().sort_values(['mean salary', 'min salary', 'max salary'],
+                                                                            ascending=False).head(8)
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            x=data_sector.index,
+            y=data_sector['mean salary'],
+            name='Mean Salary'
+        ))
+
+        fig.add_trace(go.Bar(
+            x=data_sector.index,
+            y=data_sector['min salary'],
+            name='Minimum Salary'
+        ))
+
+        fig.add_trace(go.Bar(
+            x=data_sector.index,
+            y=data_sector['max salary'],
+            name='Maximum Salary'
+        ))
+
+        fig.update_layout(title='Salaries in Different Sectors', barmode='group')
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown('''
+        * More jobs can be found in IT and Financial Industry
+        * Biotech and IT have higher pay''')
+
+    with tab2:
         options1 = st.multiselect('Add More Sectors To Compare',
                                   ['Information Technology',
                                    'Business Services',
@@ -201,44 +239,6 @@ if selected == "Insight of DS/DA/BA By Sectors":
 
         fig.update_layout(title='Salaries in Different Sectors', barmode='group')
         st.plotly_chart(fig, use_container_width=True)
-
-    with tab2:
-        color = plt.cm.plasma(np.linspace(0, 1, 9))
-        ax1 = df['Sector'].value_counts().sort_values(ascending=False).head(9).plot.bar(color=color)
-        plt.title("Sector with highest number of Jobs in DS/DA/BA")
-        plt.xlabel("Sector")
-        plt.ylabel("Count")
-        st.pyplot(ax1.get_figure(), clear_figure=True)
-
-        data_sector = df[df['Sector'].isin(
-            ['Information Technology', 'Business Services', 'Finance', 'Health Care', 'Biotech & Pharmaceuticals'
-                , 'Insurance', 'Manufacturing', 'Education', 'Government'])].groupby('Sector')[
-            ['min salary', 'max salary', 'mean salary']].mean().sort_values(['mean salary', 'min salary', 'max salary'],
-                                                                            ascending=False).head(8)
-        fig = go.Figure()
-        fig.add_trace(go.Bar(
-            x=data_sector.index,
-            y=data_sector['mean salary'],
-            name='Mean Salary'
-        ))
-
-        fig.add_trace(go.Bar(
-            x=data_sector.index,
-            y=data_sector['min salary'],
-            name='Minimum Salary'
-        ))
-
-        fig.add_trace(go.Bar(
-            x=data_sector.index,
-            y=data_sector['max salary'],
-            name='Maximum Salary'
-        ))
-
-        fig.update_layout(title='Salaries in Different Sectors', barmode='group')
-        st.plotly_chart(fig, use_container_width=True)
-        st.markdown('''
-        * More jobs can be found in IT and Financial Industry
-        * Biotech and IT have higher pay''')
 
 
 if selected == "Insight of DS/DA/BA By States":
