@@ -161,7 +161,7 @@ if selected == "Insight of DS/DA/BA By Sectors":
 
     st.header("Insight of DS/DA/BA By Sectors")
 
-    tab1, tab2 = st.tabs(["Comparison", "Sector with highest numer of Jobs in DS/DA/BA"])
+    tab1, tab2 = st.tabs(["Sector with highest numer of Jobs in DS/DA/BA", "Sectors' Comparison"])
     with tab1:
         color = plt.cm.plasma(np.linspace(0, 1, 9))
         ax1 = df['Sector'].value_counts().sort_values(ascending=False).head(9).plot.bar(color=color)
