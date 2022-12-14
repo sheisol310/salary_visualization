@@ -55,7 +55,7 @@ with col3:
     st.image('images/dong.jpeg')
     components.html(
         """
-            <h3>Jiale (Jerry) Chen</h3>
+            <h3>Dong Huang Chen</h3>
                 <div class="team-info">
                     <p>Data Science Fellow, Cohort8</p>
                 </div>
